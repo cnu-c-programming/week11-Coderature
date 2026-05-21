@@ -1,37 +1,25 @@
 #include <stdio.h>
 
-typedef enum {
-    STOPPED,
-    RUNNING
-} State;
+enum State { IDLE, RUNNING, PAUSED, DONE };
 
-typedef struct Machine Machine;
-
-struct Machine {
-    State state;
-    void (*start)(Machine *m);
-    void (*stop)(Machine *m);
-};
-
-void start(Machine *m) {
-    m->state = RUNNING;
-}
-
-void stop(Machine *m) {
-    m->state = STOPPED;
-}
-
-const char *state_name(State state) {
-    if (state == RUNNING) {
-        return "RUNNING";
+void print_state(enum State s) {
+    switch (s) {
+        case IDLE:
+            printf("State: IDLE\n");
+            break;
+        case RUNNING:
+            printf("State: RUNNING\n");
+            break;
+        case PAUSED:
+            printf("State: PAUSED\n");
+            break;
+        case DONE:
+            printf("State: DONE\n");
+            break;
     }
-    return "STOPPED";
 }
 
-int main() {
-    Machine m = {STOPPED, start, stop};
-
-    m.start(&m);
-    printf("State: %s\n", state_name(m.state));
+int main(void) {
+    print_state(RUNNING);
     return 0;
 }
